@@ -75,7 +75,31 @@ lazy val all = (project in file("all"))
   )
   .dependsOn(bulkhead, cache, circuitBreaker, rateLimiter, retry, timeLimiter)
 
+lazy val cats = (project in file("implementations/cats"))
+  .settings(commonSettings)
+  .settings(
+    name := "cats",
+    libraryDependencies += "org.typelevel" %% "cats-effect" % "2.1.2"
+  )
+  .dependsOn(core)
+
+lazy val monix = (project in file("implementations/monix"))
+  .settings(commonSettings)
+  .settings(
+    name := "monix",
+    libraryDependencies += "io.monix" %% "monix" % "3.1.0"
+  )
+  .dependsOn(core)
+
+lazy val zio = (project in file("implementations/zio"))
+  .settings(commonSettings)
+  .settings(
+    name := "zio",
+    libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC17"
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio)
