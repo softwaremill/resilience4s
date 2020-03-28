@@ -68,7 +68,14 @@ lazy val cache = (project in file("cache"))
   )
   .dependsOn(core)
 
+lazy val all = (project in file("all"))
+  .settings(commonSettings)
+  .settings(
+    name := "all"
+  )
+  .dependsOn(bulkhead, cache, circuitBreaker, rateLimiter, retry, timeLimiter)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all)
