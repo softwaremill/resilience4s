@@ -33,7 +33,15 @@ lazy val rateLimiter = (project in file("rateLimiter"))
   )
   .dependsOn(core)
 
+lazy val retry = (project in file("retry"))
+  .settings(commonSettings)
+  .settings(
+    name := "retry",
+    libraryDependencies += "io.github.resilience4j" % "resilience4j-retry" % "1.3.1"
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter)
+  .aggregate(circuitBreaker, core, rateLimiter, retry)

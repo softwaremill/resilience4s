@@ -1,7 +1,6 @@
 package sttp.resilience4s.circutbreaker
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker
-import sttp.resilience4s.CircuitBreaker4s
 import sttp.resilience4s.monad.MonadError
 
 final class CircuitBreakerOps[F[_], A](action: => F[A]) {

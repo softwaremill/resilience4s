@@ -1,10 +1,10 @@
-package sttp.resilience4s
+package sttp.resilience4s.ratelimter
 
 import io.github.resilience4j.ratelimiter.RateLimiter
 import sttp.resilience4s.monad.MonadError
 import sttp.resilience4s.monad.syntax._
 
-package object RateLimiter4s {
+object RateLimiter4s {
 
   def decorateF[F[_], T](
       rateLimiter: RateLimiter,
