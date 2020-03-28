@@ -49,7 +49,18 @@ lazy val bulkhead = (project in file("bulkhead"))
   )
   .dependsOn(core)
 
+lazy val timeLimiter = (project in file("timeLimiter"))
+  .settings(commonSettings)
+  .settings(
+    name := "timeLimiter",
+    libraryDependencies ++= Seq(
+      "io.github.resilience4j" % "resilience4j-timelimiter" % "1.3.1",
+      "org.typelevel" %% "cats-effect" % "2.1.2"
+    )
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter)
