@@ -2,17 +2,14 @@ package sttp.resilience4s
 
 import java.util.concurrent.TimeUnit
 
-import io.github.resilience4j.circuitbreaker.{
-  CallNotPermittedException,
-  CircuitBreaker
-}
-import sttp.resilience4s.circutbreaker.monad.MonadError
-import sttp.resilience4s.circutbreaker.monad.syntax._
+import io.github.resilience4j.circuitbreaker.{CallNotPermittedException, CircuitBreaker}
+import sttp.resilience4s.monad.syntax._
+import sttp.resilience4s.monad.MonadError
 
 package object CircuitBreaker4s {
 
   def decorateF[F[_], T](circuitBreaker: CircuitBreaker, action: => F[T])(
-    implicit monadError: MonadError[F]
+      implicit monadError: MonadError[F]
   ): F[T] = {
     monadError.flatMap(monadError.unit(())) { _ =>
       if (!circuitBreaker.tryAcquirePermission()) {

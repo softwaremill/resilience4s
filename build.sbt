@@ -13,14 +13,19 @@ lazy val commonSettings = commonSmlBuildSettings ++ ossPublishSettings ++ acycli
   )
 )
 
-lazy val circutBreaker = (project in file("circuitbreaker"))
+lazy val core = (project in file("core"))
+  .settings(commonSettings)
+  .settings(name := "circuitbreaker")
+
+lazy val circuitBreaker = (project in file("circuitbreaker"))
   .settings(commonSettings)
   .settings(
     name := "circuitbreaker",
     libraryDependencies += "io.github.resilience4j" % "resilience4j-circuitbreaker" % "1.3.1"
   )
+  .dependsOn(core)
 
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circutBreaker)
+  .aggregate(circuitBreaker, core)
