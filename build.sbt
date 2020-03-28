@@ -17,7 +17,7 @@ lazy val core = (project in file("core"))
   .settings(commonSettings)
   .settings(name := "circuitbreaker")
 
-lazy val circuitBreaker = (project in file("circuitbreaker"))
+lazy val circuitBreaker = (project in file("circuitBreaker"))
   .settings(commonSettings)
   .settings(
     name := "circuitbreaker",
@@ -25,7 +25,15 @@ lazy val circuitBreaker = (project in file("circuitbreaker"))
   )
   .dependsOn(core)
 
+lazy val rateLimiter = (project in file("rateLimiter"))
+  .settings(commonSettings)
+  .settings(
+    name := "ratelimiter",
+    libraryDependencies += "io.github.resilience4j" % "resilience4j-ratelimiter" % "1.3.1"
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core)
+  .aggregate(circuitBreaker, core, rateLimiter)
