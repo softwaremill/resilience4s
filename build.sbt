@@ -60,7 +60,15 @@ lazy val timeLimiter = (project in file("timeLimiter"))
   )
   .dependsOn(core)
 
+lazy val cache = (project in file("cache"))
+  .settings(commonSettings)
+  .settings(
+    name := "cache",
+    libraryDependencies += "io.github.resilience4j" % "resilience4j-cache" % "1.3.1"
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache)
