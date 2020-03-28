@@ -41,7 +41,15 @@ lazy val retry = (project in file("retry"))
   )
   .dependsOn(core)
 
+lazy val bulkhead = (project in file("bulkhead"))
+  .settings(commonSettings)
+  .settings(
+    name := "bulkhead",
+    libraryDependencies += "io.github.resilience4j" % "resilience4j-bulkhead" % "1.3.1"
+  )
+  .dependsOn(core)
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead)
