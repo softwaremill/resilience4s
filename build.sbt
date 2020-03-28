@@ -15,7 +15,7 @@ lazy val commonSettings = commonSmlBuildSettings ++ ossPublishSettings ++ acycli
 
 lazy val core = (project in file("core"))
   .settings(commonSettings)
-  .settings(name := "circuitbreaker")
+  .settings(name := "core")
 
 lazy val circuitBreaker = (project in file("circuitBreaker"))
   .settings(commonSettings)
@@ -99,7 +99,14 @@ lazy val zio = (project in file("implementations/zio"))
   )
   .dependsOn(core)
 
+lazy val docs = (project in file("generated-docs")) // important: it must not be docs/
+  .settings(commonSettings)
+  .settings(publishArtifact := false, name := "docs")
+  .dependsOn(circuitBreaker, cats)
+  .enablePlugins(MdocPlugin)
+  .settings(mdocIn := file("docs-sources"))
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "resilience4s")
-  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio)
+  .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio, docs)

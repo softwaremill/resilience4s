@@ -1,4 +1,4 @@
-package sttp.resilience4s.circutbreaker
+package sttp.resilience4s.circuitbreaker
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker
 import sttp.resilience4s.monad.MonadError

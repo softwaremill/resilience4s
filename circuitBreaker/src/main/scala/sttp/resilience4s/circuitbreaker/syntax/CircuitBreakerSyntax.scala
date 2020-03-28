@@ -1,6 +1,6 @@
-package sttp.resilience4s.circutbreaker.syntax
+package sttp.resilience4s.circuitbreaker.syntax
 
-import sttp.resilience4s.circutbreaker.CircuitBreakerOps
+import sttp.resilience4s.circuitbreaker.CircuitBreakerOps
 
 trait CircuitBreakerSyntax {
   implicit final def circuitBreakerSyntax[F[_], A](
