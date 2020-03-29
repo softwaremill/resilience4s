@@ -21,7 +21,7 @@ Resilience4s provides several core modules which mirrors those in resilience4j:
 
 ## integrations
 
-# cats-effect
+### cats-effect
 
 ```scala
 libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cats" % "0.1.0-SNAPSHOT"
@@ -31,7 +31,7 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cats" % "0.1.0-SN
 import sttp.resilience4s.cats.implicits._
 ```
 
-# monix
+### monix
 
 ```scala
 libraryDependencies += "com.softwaremill.sttp.resilience4s" % "monix" % "0.1.0-SNAPSHOT"
@@ -41,7 +41,7 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "monix" % "0.1.0-S
 import sttp.resilience4s.monix.implicits._
 ```
 
-# zio
+### zio
 
 ```scala
 libraryDependencies += "com.softwaremill.sttp.resilience4s" % "zio" % "0.1.0-SNAPSHOT"
