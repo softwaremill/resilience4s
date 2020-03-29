@@ -169,9 +169,9 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "timelimiter" % "0
 ```scala
 def exampleTimeLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
     import sttp.resilience4s.cats.implicits._
+    import sttp.resilience4s.timelimiter.syntax._
     import io.github.resilience4j.timelimiter.{TimeLimiterConfig, TimeLimiterRegistry}
     import java.time.Duration
-    import sttp.resilience4s.timelimiter.syntax._
 
     val config = TimeLimiterConfig.custom()
        .cancelRunningFuture(true)
@@ -187,6 +187,28 @@ def exampleTimeLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 
     Service.getUsersIds
         .withTimeLimiter(timeLimiterWithDefaultConfig)
+        .unsafeRunSync()
+}
+```
+
+### cache
+
+```scala
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cache" % "0.1.0-SNAPSHOT"
+```
+
+```scala
+def exampleCache(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
+    import sttp.resilience4s.cats.implicits._
+    import sttp.resilience4s.cache.syntax._
+    import io.github.resilience4j.cache.Cache
+    import javax.cache.Caching
+
+    val cacheInstance = Caching.getCache("cacheName", classOf[String], classOf[List[String]])
+    val cacheContext = Cache.of(cacheInstance)
+
+    Service.getUsersIds
+        .withCache(cacheContext, "cacheKey")
         .unsafeRunSync()
 }
 ```
