@@ -106,7 +106,11 @@ lazy val docs = (project in file("generated-docs")) // important: it must not be
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
   .settings(
     mdocIn := file("docs-sources"),
-    moduleName := "resilience4s-docs"
+    moduleName := "resilience4s-docs",
+    mdocVariables := Map(
+      "VERSION" -> version.value
+    ),
+    mdocOut := file(".")
   )
 
 lazy val rootProject = (project in file("."))
