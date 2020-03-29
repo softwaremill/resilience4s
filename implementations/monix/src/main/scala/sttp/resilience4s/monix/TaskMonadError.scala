@@ -3,6 +3,8 @@ package sttp.resilience4s.monix
 import monix.eval.Task
 import sttp.resilience4s.monad.MonadError
 
+import scala.concurrent.duration.FiniteDuration
+
 object TaskMonadError extends MonadError[Task] {
   override def unit[T](t: T): Task[T] = Task.now(t)
 
@@ -17,4 +19,6 @@ object TaskMonadError extends MonadError[Task] {
     rt.onErrorRecoverWith(h)
 
   override def eval[T](t: => T): Task[T] = Task(t)
+
+  override def timeout[T](fa: Task[T], after: FiniteDuration): Task[T] = fa.timeout(after)
 }

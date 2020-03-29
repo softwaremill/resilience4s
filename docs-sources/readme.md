@@ -60,8 +60,9 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "circuitbreaker" %
 ```
 
 ```scala mdoc
-def exampleCircuitbreaker = {
-    import cats.effect.IO
+import cats.effect.{ContextShift, IO, Timer}
+
+def exampleCircuitbreaker(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
     import sttp.resilience4s.cats.implicits._
     import sttp.resilience4s.circuitbreaker.syntax._
     import io.github.resilience4j.circuitbreaker.CircuitBreaker
@@ -82,9 +83,9 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "ratelimiter" % "@
 ```
 
 ```scala mdoc
-def exampleRateLimiter = {
-    import cats.effect.IO
-    import sttp.resilience4s.cats.implicits._
+import cats.effect.{ContextShift, IO, Timer}
+
+def exampleRateLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
     import sttp.resilience4s.ratelimiter.syntax._
     import io.github.resilience4j.ratelimiter.{RateLimiterConfig, RateLimiterRegistry}
     import java.time.Duration

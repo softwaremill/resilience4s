@@ -1,5 +1,6 @@
 package sttp.resilience4s.monad
 
+import scala.concurrent.duration.FiniteDuration
 import scala.util.{Failure, Success, Try}
 
 trait MonadError[F[_]] {
@@ -22,8 +23,5 @@ trait MonadError[F[_]] {
   def eval[T](t: => T): F[T] = map(unit(()))(_ => t)
   def flatten[T](ffa: F[F[T]]): F[T] = flatMap[F[T], T](ffa)(identity)
 
-  def fromTry[T](t: Try[T]): F[T] = t match {
-    case Success(v) => unit(v)
-    case Failure(e) => raiseError(e)
-  }
+  def timeout[T](fa: F[T], after: FiniteDuration): F[T]
 }

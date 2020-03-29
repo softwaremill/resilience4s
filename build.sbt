@@ -54,8 +54,7 @@ lazy val timeLimiter = (project in file("timeLimiter"))
   .settings(
     name := "timeLimiter",
     libraryDependencies ++= Seq(
-      "io.github.resilience4j" % "resilience4j-timelimiter" % "1.3.1",
-      "org.typelevel" %% "cats-effect" % "2.1.2"
+      "io.github.resilience4j" % "resilience4j-timelimiter" % "1.3.1"
     )
   )
   .dependsOn(core)

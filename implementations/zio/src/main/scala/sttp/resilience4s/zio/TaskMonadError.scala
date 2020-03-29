@@ -1,7 +1,13 @@
 package sttp.resilience4s.zio
 
+import java.util.concurrent.TimeoutException
+
 import sttp.resilience4s.monad.MonadError
 import zio.Task
+import zio.clock.Clock
+import zio.duration.Duration
+
+import scala.concurrent.duration.FiniteDuration
 
 object TaskMonadError extends MonadError[Task] {
   override def unit[T](t: T): Task[T] = Task.succeed(t)
@@ -17,4 +23,7 @@ object TaskMonadError extends MonadError[Task] {
     rt.catchSome(h)
 
   override def eval[T](t: => T): Task[T] = Task(t)
+
+  override def timeout[T](fa: Task[T], after: FiniteDuration): Task[T] =
+    fa.timeoutFail(new TimeoutException())(Duration.fromScala(after)).provide(Clock.Live)
 }

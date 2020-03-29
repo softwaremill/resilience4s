@@ -1,3 +1,3 @@
 package sttp.resilience4s.monad
 
-package object syntax extends MonadErrorSyntax {}
+package object syntax extends MonadErrorSyntax
