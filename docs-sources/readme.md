@@ -1,4 +1,5 @@
 # resilience4s
+[![Build Status](https://travis-ci.org/softwaremill/resilience4s.svg?branch=master)](https://travis-ci.org/softwaremill/resilience4s)
 
 This project is just a scala wrapper around [resilience4j](https://github.com/resilience4j/resilience4j) 
 which is a fault tolerance library designed for java.
