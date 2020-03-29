@@ -83,30 +83,29 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "ratelimiter" % "@
 
 ```scala mdoc
 def exampleRateLimiter = {
-
-import cats.effect.IO
-import sttp.resilience4s.cats.implicits._
-import sttp.resilience4s.ratelimiter.syntax._
-import io.github.resilience4j.ratelimiter.{RateLimiterConfig, RateLimiterRegistry}
-import java.time.Duration
-
-def getUsersIds: IO[List[String]] = IO.pure(List("123" ,"234"))
-
-val config = RateLimiterConfig.custom()
-  .limitRefreshPeriod(Duration.ofMillis(1))
-  .limitForPeriod(10)
-  .timeoutDuration(Duration.ofMillis(25))
-  .build();
-
-// Create registry
-val rateLimiterRegistry = RateLimiterRegistry.of(config);
-
-// Use registry
-val rateLimiter = rateLimiterRegistry
-  .rateLimiter("name1");
-
-getUsersIds
-    .withRateLimiter(rateLimiter)
-    .unsafeRunSync()
+    import cats.effect.IO
+    import sttp.resilience4s.cats.implicits._
+    import sttp.resilience4s.ratelimiter.syntax._
+    import io.github.resilience4j.ratelimiter.{RateLimiterConfig, RateLimiterRegistry}
+    import java.time.Duration
+    
+    def getUsersIds: IO[List[String]] = IO.pure(List("123" ,"234"))
+    
+    val config = RateLimiterConfig.custom()
+      .limitRefreshPeriod(Duration.ofMillis(1))
+      .limitForPeriod(10)
+      .timeoutDuration(Duration.ofMillis(25))
+      .build();
+    
+    // Create registry
+    val rateLimiterRegistry = RateLimiterRegistry.of(config);
+    
+    // Use registry
+    val rateLimiter = rateLimiterRegistry
+      .rateLimiter("name1");
+    
+    getUsersIds
+        .withRateLimiter(rateLimiter)
+        .unsafeRunSync()
 }
 ```
