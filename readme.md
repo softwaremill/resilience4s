@@ -159,3 +159,34 @@ def exampleRetry(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
         .unsafeRunSync()
 }
 ```
+
+### timelimiter
+
+```scala
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "timelimiter" % "0.1.0-SNAPSHOT"
+```
+
+```scala
+def exampleTimeLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
+    import sttp.resilience4s.cats.implicits._
+    import io.github.resilience4j.timelimiter.{TimeLimiterConfig, TimeLimiterRegistry}
+    import java.time.Duration
+    import sttp.resilience4s.timelimiter.syntax._
+
+    val config = TimeLimiterConfig.custom()
+       .cancelRunningFuture(true)
+       .timeoutDuration(Duration.ofMillis(500))
+       .build()
+    
+    // Create a TimeLimiterRegistry with a custom global configuration
+    val registry = TimeLimiterRegistry.of(config)
+    
+    // Get or create a TimeLimiter from the registry - 
+    // TimeLimiter will be backed by the default config
+    val timeLimiterWithDefaultConfig = registry.timeLimiter("name1")
+
+    Service.getUsersIds
+        .withTimeLimiter(timeLimiterWithDefaultConfig)
+        .unsafeRunSync()
+}
+```
