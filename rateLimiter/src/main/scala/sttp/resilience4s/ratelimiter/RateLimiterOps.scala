@@ -1,4 +1,4 @@
-package sttp.resilience4s.ratelimter
+package sttp.resilience4s.ratelimiter
 
 import io.github.resilience4j.ratelimiter.RateLimiter
 import sttp.resilience4s.monad.MonadError

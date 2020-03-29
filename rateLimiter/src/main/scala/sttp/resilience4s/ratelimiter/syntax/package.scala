@@ -1,3 +1,3 @@
-package sttp.resilience4s.ratelimter
+package sttp.resilience4s.ratelimiter
 
 package object syntax extends RateLimiterSyntax

@@ -102,7 +102,7 @@ lazy val zio = (project in file("implementations/zio"))
 lazy val docs = (project in file("generated-docs")) // important: it must not be docs/
   .settings(commonSettings)
   .settings(publishArtifact := false, name := "docs")
-  .dependsOn(circuitBreaker, cats)
+  .dependsOn(all, cats, zio, monix)
   .enablePlugins(MdocPlugin, DocusaurusPlugin)
   .settings(
     mdocIn := file("docs-sources"),
