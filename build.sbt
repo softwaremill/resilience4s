@@ -1,3 +1,5 @@
+import com.softwaremill.PublishTravis.publishTravisSettings
+
 lazy val commonSettings = commonSmlBuildSettings ++ ossPublishSettings ++ acyclicSettings ++ Seq(
   organization := "com.softwaremill.sttp.resilience4s",
   scalaVersion := "2.13.1",
@@ -114,5 +116,6 @@ lazy val docs = (project in file("generated-docs")) // important: it must not be
 
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
+  .settings(publishTravisSettings)
   .settings(publishArtifact := false, name := "resilience4s")
   .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio, docs)

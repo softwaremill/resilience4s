@@ -1,6 +1,8 @@
 language: scala
 scala:
   - 2.13.1
+before_install:
+  - bash scripts/decrypt_files_if_not_pr.sh
 before_cache:
   - du -h -d 1 $HOME/.ivy2/
   - du -h -d 2 $HOME/.sbt/
@@ -18,3 +20,10 @@ cache:
     - "$HOME/.coursier"
 script:
   - sbt ++$TRAVIS_SCALA_VERSION test docs/mdoc
+deploy:
+  - provider: script
+    script: sbt publishRelease
+    skip_cleanup: true
+    on:
+      all_branches: true
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+(\.[0-9]+)?
