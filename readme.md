@@ -56,7 +56,7 @@ import sttp.resilience4s.zio.implicits._
 
 All examples assume existence of following service:
 ```scala
-import cats.effect.IO
+import cats.effect.{ContextShift, IO, Timer}
 
 object Service {
     def getUsersIds: IO[List[String]] = IO.pure(List("123" ,"234"))
@@ -70,14 +70,12 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "circuitbreaker" %
 ```
 
 ```scala
-import cats.effect.{ContextShift, IO, Timer}
-
 def exampleCircuitbreaker(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
     import sttp.resilience4s.cats.implicits._
     import sttp.resilience4s.circuitbreaker.syntax._
     import io.github.resilience4j.circuitbreaker.CircuitBreaker
     
-    val circuitBreaker = CircuitBreaker.ofDefaults("backendName");
+    val circuitBreaker = CircuitBreaker.ofDefaults("backendName")
     Service.getUsersIds
         .withCircuitBreaker(circuitBreaker)
         .unsafeRunSync()
@@ -91,9 +89,8 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "ratelimiter" % "0
 ```
 
 ```scala
-import cats.effect.{ContextShift, IO, Timer}
-
 def exampleRateLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
+    import sttp.resilience4s.cats.implicits._
     import sttp.resilience4s.ratelimiter.syntax._
     import io.github.resilience4j.ratelimiter.{RateLimiterConfig, RateLimiterRegistry}
     import java.time.Duration
@@ -102,14 +99,14 @@ def exampleRateLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
       .limitRefreshPeriod(Duration.ofMillis(1))
       .limitForPeriod(10)
       .timeoutDuration(Duration.ofMillis(25))
-      .build();
+      .build()
     
     // Create registry
-    val rateLimiterRegistry = RateLimiterRegistry.of(config);
+    val rateLimiterRegistry = RateLimiterRegistry.of(config)
     
     // Use registry
     val rateLimiter = rateLimiterRegistry
-      .rateLimiter("name1");
+      .rateLimiter("name1")
     
     Service.getUsersIds
         .withRateLimiter(rateLimiter)
@@ -124,9 +121,8 @@ libraryDependencies += "com.softwaremill.sttp.resilience4s" % "bulkhead" % "0.1.
 ```
 
 ```scala
-import cats.effect.{ContextShift, IO, Timer}
-
 def exampleBulkhead(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
+    import sttp.resilience4s.cats.implicits._
     import sttp.resilience4s.bulkhead.syntax._
     import io.github.resilience4j.bulkhead.{BulkheadConfig, Bulkhead}
     import java.time.Duration
@@ -134,12 +130,32 @@ def exampleBulkhead(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
     val config = BulkheadConfig.custom()
         .maxConcurrentCalls(150)
         .maxWaitDuration(Duration.ofMillis(25))
-        .build();
+        .build()
     
-    val bulkhead = Bulkhead.of("backendName", config);
+    val bulkhead = Bulkhead.of("backendName", config)
 
     Service.getUsersIds
         .withBulkhead(bulkhead)
+        .unsafeRunSync()
+}
+```
+
+### retry
+
+```scala
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "retry" % "0.1.0-SNAPSHOT"
+```
+
+```scala
+def exampleRetry(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
+    import sttp.resilience4s.cats.implicits._
+    import sttp.resilience4s.retry.syntax._
+    import io.github.resilience4j.retry.Retry
+
+    val retry = Retry.ofDefaults("backendName")
+
+    Service.getUsersIds
+        .withRetry(retry)
         .unsafeRunSync()
 }
 ```
