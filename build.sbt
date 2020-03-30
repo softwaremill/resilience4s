@@ -134,6 +134,7 @@ lazy val rootProject = (project in file("."))
           runTest,
           setReleaseVersion,
           releaseStepInputTask(docs / mdoc),
+          stageChanges("readme.md"),
           commitReleaseVersion,
           tagRelease,
           setNextVersion,
@@ -149,3 +150,10 @@ lazy val rootProject = (project in file("."))
     }
   )
   .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio, docs)
+
+def stageChanges(fileName: String): ReleaseStep = { s: State =>
+  val settings = Project.extract(s)
+  val vcs = settings.get(releaseVcs).get
+  vcs.add(fileName) !! s.log
+  s
+}
