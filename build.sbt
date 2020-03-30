@@ -1,4 +1,5 @@
 import com.softwaremill.PublishTravis.publishTravisSettings
+import com.softwaremill.{Publish, PublishTravis}
 
 lazy val commonSettings = commonSmlBuildSettings ++ ossPublishSettings ++ acyclicSettings ++ Seq(
   organization := "com.softwaremill.sttp.resilience4s",
@@ -114,8 +115,37 @@ lazy val docs = (project in file("generated-docs")) // important: it must not be
     mdocOut := file(".")
   )
 
+import sbt._, Keys._
+import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleaseStateTransformations._
+
 lazy val rootProject = (project in file("."))
   .settings(commonSettings)
   .settings(publishTravisSettings)
-  .settings(publishArtifact := false, name := "resilience4s")
+  .settings(
+    publishArtifact := false,
+    name := "resilience4s",
+    releaseProcess := {
+      if (PublishTravis.isCommitRelease.value) {
+        Seq(
+          checkSnapshotDependencies,
+          inquireVersions,
+          runClean,
+          runTest,
+          setReleaseVersion,
+          releaseStepInputTask(docs / mdoc),
+          commitReleaseVersion,
+          tagRelease,
+          setNextVersion,
+          commitNextVersion,
+          pushChanges
+        )
+      } else {
+        Seq(
+          publishArtifacts,
+          releaseStepCommand("sonatypeBundleRelease")
+        )
+      }
+    }
+  )
   .aggregate(circuitBreaker, core, rateLimiter, retry, bulkhead, timeLimiter, cache, all, cats, monix, zio, docs)
