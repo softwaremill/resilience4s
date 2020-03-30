@@ -25,7 +25,7 @@ Resilience4s provides several core modules which mirrors those in resilience4j:
 ### cats-effect
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cats" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cats" % "0.1.1"
 ```
 
 ```scala
@@ -35,7 +35,7 @@ import sttp.resilience4s.cats.implicits._
 ### monix
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "monix" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "monix" % "0.1.1"
 ```
 
 ```scala
@@ -45,7 +45,7 @@ import sttp.resilience4s.monix.implicits._
 ### zio
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "zio" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "zio" % "0.1.1"
 ```
 
 ```scala
@@ -66,7 +66,7 @@ object Service {
 ### circuitbreaker
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "circuitbreaker" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "circuitbreaker" % "0.1.1"
 ```
 
 ```scala
@@ -85,7 +85,7 @@ def exampleCircuitbreaker(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 ### ratelimiter
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "ratelimiter" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "ratelimiter" % "0.1.1"
 ```
 
 ```scala
@@ -117,7 +117,7 @@ def exampleRateLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 ### bulkhead
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "bulkhead" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "bulkhead" % "0.1.1"
 ```
 
 ```scala
@@ -143,7 +143,7 @@ def exampleBulkhead(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 ### retry
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "retry" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "retry" % "0.1.1"
 ```
 
 ```scala
@@ -163,7 +163,7 @@ def exampleRetry(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 ### timelimiter
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "timelimiter" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "timelimiter" % "0.1.1"
 ```
 
 ```scala
@@ -194,7 +194,7 @@ def exampleTimeLimiter(implicit cs: ContextShift[IO], timer: Timer[IO]) = {
 ### cache
 
 ```scala
-libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cache" % "0.1.0-SNAPSHOT"
+libraryDependencies += "com.softwaremill.sttp.resilience4s" % "cache" % "0.1.1"
 ```
 
 ```scala
