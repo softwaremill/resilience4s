@@ -25,5 +25,5 @@ object TaskMonadError extends MonadError[Task] {
   override def eval[T](t: => T): Task[T] = Task(t)
 
   override def timeout[T](fa: Task[T], after: FiniteDuration): Task[T] =
-    fa.timeoutFail(new TimeoutException())(Duration.fromScala(after)).provide(Clock.Live)
+    fa.timeoutFail(new TimeoutException())(Duration.fromScala(after)).provideLayer(Clock.live)
 }

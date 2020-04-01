@@ -97,7 +97,7 @@ lazy val zio = (project in file("implementations/zio"))
   .settings(commonSettings)
   .settings(
     name := "zio",
-    libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC17"
+    libraryDependencies += "dev.zio" %% "zio" % "1.0.0-RC18"
   )
   .dependsOn(core)
 
